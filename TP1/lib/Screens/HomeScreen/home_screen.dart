@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import '../../models/book.dart';
 import 'home_cell.dart';
 import '../../Screens/Details/details_screen.dart';
 import '../../Screens/LibraryScreen/library_screen.dart';
+import '../../providers/theme_provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     final books = <Book>[
       Book("Madame Bovary", 35, 'assets/madame_bovary.jpg'),
       Book("L'Étranger", 28, 'assets/letranger.jpg'),
@@ -26,24 +30,31 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 33, 107, 235),
-        title: const Text(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+        title: Text(
           "Store INSAT",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge
+              ?.copyWith(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onPrimary),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.grid_view, color: Colors.white),
+            icon: Icon(
+              themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode,
+            ),
+            onPressed: () => themeProvider.toggleTheme(),
+            tooltip: themeProvider.isDarkMode
+                ? 'Switch to Light Mode'
+                : 'Switch to Dark Mode',
+          ),
+          IconButton(
+            icon: const Icon(Icons.grid_view),
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => LibraryScreen(books: books),
-                ),
+                MaterialPageRoute(builder: (_) => LibraryScreen(books: books)),
               );
             },
           ),

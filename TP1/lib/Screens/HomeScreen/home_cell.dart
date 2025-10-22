@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../models/book.dart';
+import '../../models/book.dart';
 
 class HomeCell extends StatelessWidget {
   final Book book;
@@ -31,18 +31,24 @@ class HomeCell extends StatelessWidget {
                 children: [
                   Text(
                     book.name,
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     "${book.price} TND",
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                   ),
                 ],
               ),
