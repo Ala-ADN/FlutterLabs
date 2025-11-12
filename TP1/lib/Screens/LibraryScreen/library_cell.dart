@@ -3,7 +3,7 @@ import '../../models/book.dart';
 
 class LibraryCell extends StatelessWidget {
   final Book book;
-  const LibraryCell({Key? key, required this.book}) : super(key: key);
+  const LibraryCell({super.key, required this.book});
 
   @override
   Widget build(BuildContext context) {

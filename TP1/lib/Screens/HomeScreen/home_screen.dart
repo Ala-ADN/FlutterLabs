@@ -5,10 +5,11 @@ import '../../models/book.dart';
 import 'home_cell.dart';
 import '../../Screens/Details/details_screen.dart';
 import '../../Screens/LibraryScreen/library_screen.dart';
+import '../../Screens/SignUpScreen/signup_screen.dart';
 import '../../providers/theme_provider.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +75,17 @@ class HomeScreen extends StatelessWidget {
             child: HomeCell(b),
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const SignUpScreen()),
+          );
+        },
+        icon: const Icon(Icons.person_add),
+        label: const Text('Sign Up'),
+        tooltip: 'Go to Sign Up',
       ),
     );
   }

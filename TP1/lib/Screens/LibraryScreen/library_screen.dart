@@ -5,7 +5,7 @@ import '../Details/details_screen.dart';
 
 class LibraryScreen extends StatelessWidget {
   final List<Book> books;
-  const LibraryScreen({Key? key, required this.books}) : super(key: key);
+  const LibraryScreen({super.key, required this.books});
 
   @override
   Widget build(BuildContext context) {

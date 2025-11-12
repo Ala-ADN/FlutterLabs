@@ -3,7 +3,7 @@ import '../../models/book.dart';
 
 class DetailsScreen extends StatefulWidget {
   final Book book;
-  const DetailsScreen({Key? key, required this.book}) : super(key: key);
+  const DetailsScreen({super.key, required this.book});
 
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
