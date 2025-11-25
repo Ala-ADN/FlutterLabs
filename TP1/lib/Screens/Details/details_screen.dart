@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import '../../models/book.dart';
 
 class DetailsScreen extends StatefulWidget {
-  final Book book;
-  const DetailsScreen({super.key, required this.book});
+  static const String routeName = "/Details";
+  final Book? book;
+  const DetailsScreen({super.key, this.book});
 
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
@@ -31,10 +32,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
     }
   }
 
-  void _addToCart() {
+  void _addToCart(Book book) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('${widget.book.name} added to cart'),
+        content: Text('${book.name} added to cart'),
         backgroundColor: Theme.of(context).colorScheme.primary,
         action: SnackBarAction(
           label: 'VIEW CART',
@@ -47,13 +48,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Book book = widget.book ?? ModalRoute.of(context)!.settings.arguments as Book;
     return Scaffold(
-      appBar: AppBar(title: Text(widget.book.name)),
+      appBar: AppBar(title: Text(book.name)),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           Hero(
-            tag: 'book-${widget.book.name}',
+            tag: 'book-${book.name}',
             child: Center(
               child: Card(
                 elevation: 8,
@@ -63,7 +65,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(16),
                   child: Image.asset(
-                    widget.book.image,
+                    book.image,
                     height: 350,
                     fit: BoxFit.contain,
                   ),
@@ -75,7 +77,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
           const SizedBox(height: 24),
 
           Text(
-            widget.book.name,
+            book.name,
             textAlign: TextAlign.center,
             style: Theme.of(context)
                 .textTheme
@@ -96,7 +98,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       size: 32,
                       color: Theme.of(context).colorScheme.onPrimaryContainer),
                   Text(
-                    "${widget.book.price} TND",
+                    "${book.price} TND",
                     style: Theme.of(context)
                         .textTheme
                         .headlineSmall
@@ -131,7 +133,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             children: [
               Expanded(
                 child: OutlinedButton.icon(
-                  onPressed: () => _addToCart(),
+                  onPressed: () => _addToCart(book),
                   icon: Icon(Icons.add_shopping_cart,
                       color: Theme.of(context).colorScheme.primary),
                   label: const Text("Add to Cart"),

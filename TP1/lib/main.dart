@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'Screens/HomeScreen/home_screen.dart';
+import 'widgets/navigation/main_navigation_screen.dart';
 import 'providers/theme_provider.dart';
 
 void main() {
@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
           themeMode: themeProvider.themeMode,
-          home: const HomeScreen(),
+          home: const MainNavigationScreen(),
         );
       },
     );
