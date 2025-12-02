@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../models/book.dart';
+import '../../Models/book.dart';
 
 class HomeCell extends StatelessWidget {
   final Book book;

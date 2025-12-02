@@ -1,9 +1,23 @@
 import 'package:flutter/material.dart';
+import 'Models/user.dart';
+import 'data/user_service.dart';
 import 'package:provider/provider.dart';
 import 'widgets/navigation/main_navigation_screen.dart';
 import 'providers/theme_provider.dart';
 
 void main() {
+  // Minimal console test for SharedPreferences before app starts
+  WidgetsFlutterBinding.ensureInitialized();
+  final service = UserService();
+  final demoUser = User(email: 'seif.jammoussi@fadhloun.com', fullName: 'Abid Chouchane');
+  service
+      .saveCurrentUser(demoUser)
+      .then((_) => service.getCurrentUser())
+      .then((u) {
+    // ignore: avoid_print
+    print('Loaded user: ' + (u?.toString() ?? 'null'));
+  });
+
   runApp(
     MultiProvider(
       providers: [ChangeNotifierProvider(create: (context) => ThemeProvider())],

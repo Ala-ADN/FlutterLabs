@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../models/book.dart';
+import '../../Models/book.dart';
+import '../../data/book_service.dart';
+import '../BasketScreen/basket_screen.dart';
 
 class DetailsScreen extends StatefulWidget {
   static const String routeName = "/Details";
@@ -32,18 +34,32 @@ class _DetailsScreenState extends State<DetailsScreen> {
     }
   }
 
-  void _addToCart(Book book) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('${book.name} added to cart'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        action: SnackBarAction(
-          label: 'VIEW CART',
-          textColor: Theme.of(context).colorScheme.onPrimary,
-          onPressed: () {},
+  Future<void> _addToCart(Book book) async {
+    try {
+      await BookService().insertBook(book);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('${book.name} added to cart'),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          action: SnackBarAction(
+            label: 'VIEW CART',
+            textColor: Theme.of(context).colorScheme.onPrimary,
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const BasketScreen()),
+              );
+            },
+          ),
         ),
-      ),
-    );
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to add: $e'),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ),
+      );
+    }
   }
 
   @override
