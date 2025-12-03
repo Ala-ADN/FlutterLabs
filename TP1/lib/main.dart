@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tp_1/Screens/SignUpScreen/signup_screen.dart';
 import 'Models/user.dart';
 import 'data/user_service.dart';
 import 'package:provider/provider.dart';
@@ -89,6 +90,9 @@ class MyApp extends StatelessWidget {
           ),
           themeMode: themeProvider.themeMode,
           home: const MainNavigationScreen(),
+          routes: {
+            SignUpScreen.routeName: (context) => const SignUpScreen(),
+          },
         );
       },
     );

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../widgets/custom_input_decoration.dart';
 
 class SignUpScreen extends StatefulWidget {
+  static const String routeName = "/SignUp";
+
   const SignUpScreen({super.key});
 
   @override

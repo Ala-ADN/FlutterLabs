@@ -43,10 +43,7 @@ class HomeScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const SignUpScreen()),
-          );
+          Navigator.pushNamed(context, SignUpScreen.routeName);
         },
         icon: const Icon(Icons.person_add),
         label: const Text('Sign Up'),
