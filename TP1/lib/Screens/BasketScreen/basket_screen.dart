@@ -10,15 +10,6 @@ import '../../providers/storage_mode_provider.dart';
 class BasketScreen extends StatelessWidget {
   const BasketScreen({super.key});
 
-  Future<List<Book>> _basketFuture() async {
-    final user = await UserService().getCurrentUser();
-    final email = user?.email;
-    if (email != null && email.isNotEmpty) {
-      return BookService().fetchBasketBooksForUser(email);
-    }
-    return BookService().fetchBasketBooks();
-  }
-
   @override
   Widget build(BuildContext context) {
     final storageMode = Provider.of<StorageModeProvider>(context).mode;
