@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../providers/storage_mode_provider.dart';
 
 class CustomDrawer extends StatelessWidget {
   final String buttonTitle;
@@ -9,6 +11,7 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final storageModeProvider = Provider.of<StorageModeProvider>(context);
     return Drawer(
       child: Scaffold(
         appBar: AppBar(
@@ -37,6 +40,7 @@ class CustomDrawer extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
+            // First option: Navigation type
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListTile(
@@ -53,6 +57,29 @@ class CustomDrawer extends StatelessWidget {
                   ),
                 ),
                 onTap: callback,
+                tileColor: Theme.of(context).colorScheme.surfaceContainer,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+            // Second option: Storage mode switch
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListTile(
+                leading: Icon(
+                  Icons.cloud_sync,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                title: Text(storageModeProvider.mode == StorageMode.cloud ? 'Online Mode' : 'Offline Mode'),
+                trailing: Switch(
+                  value: storageModeProvider.mode == StorageMode.cloud,
+                  onChanged: (val) {
+                    storageModeProvider.setMode(
+                      val ? StorageMode.cloud : StorageMode.offline,
+                    );
+                  },
+                ),
                 tileColor: Theme.of(context).colorScheme.surfaceContainer,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),

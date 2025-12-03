@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "892176384276",
+    "project_id": "insatstore",
+    "storage_bucket": "insatstore.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:892176384276:android:ce994e7f1c22f07ae74201",
+        "android_client_info": {
+          "package_name": "com.example.tp_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwc8UtP1HvmAHQkwdL4OJEAlyd30OexO0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

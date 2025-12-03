@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../Models/book.dart';
 import '../../data/book_service.dart';
 import '../BasketScreen/basket_screen.dart';
+import '../../data/firestore_basket_service.dart';
+import '../../data/user_service.dart';
+import '../../providers/storage_mode_provider.dart';
 
 class DetailsScreen extends StatefulWidget {
   static const String routeName = "/Details";
@@ -35,8 +39,20 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 
   Future<void> _addToCart(Book book) async {
+    final user = await UserService().getCurrentUser();
+    if (user?.email == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No user found')),
+      );
+      return;
+    }
+    final storageMode = Provider.of<StorageModeProvider>(context, listen: false).mode;
     try {
-      await BookService().insertBook(book);
+      if (storageMode == StorageMode.cloud) {
+        await FirestoreBasketService().addBookToBasket(book, user!.email!);
+      } else {
+        await BookService().insertBookForUser(book, user!.email!);
+      }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('${book.name} added to cart'),
@@ -45,7 +61,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             label: 'VIEW CART',
             textColor: Theme.of(context).colorScheme.onPrimary,
             onPressed: () {
-              Navigator.of(context).push(
+              Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (_) => const BasketScreen()),
               );
             },

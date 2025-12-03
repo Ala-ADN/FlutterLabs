@@ -4,9 +4,11 @@ import 'data/user_service.dart';
 import 'package:provider/provider.dart';
 import 'widgets/navigation/main_navigation_screen.dart';
 import 'providers/theme_provider.dart';
+import 'providers/storage_mode_provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
-  // Minimal console test for SharedPreferences before app starts
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final service = UserService();
   final demoUser = User(email: 'seif.jammoussi@fadhloun.com', fullName: 'Abid Chouchane');
@@ -17,10 +19,15 @@ void main() {
     // ignore: avoid_print
     print('Loaded user: ' + (u?.toString() ?? 'null'));
   });
-
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context) => ThemeProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => StorageModeProvider()),
+      ],
       child: const MyApp(),
     ),
   );
