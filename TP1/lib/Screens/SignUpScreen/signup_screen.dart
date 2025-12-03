@@ -10,17 +10,19 @@ class SignUpScreen extends StatelessWidget {
     try {
       final parts = input.split('/');
       if (parts.length != 3) return false;
-      
+
       final day = int.parse(parts[0]);
       final month = int.parse(parts[1]);
       final year = int.parse(parts[2]);
-      
+
       if (year < 1900 || year > DateTime.now().year) return false;
       if (month < 1 || month > 12) return false;
       if (day < 1 || day > 31) return false;
-      
+
       final parsedDate = DateTime(year, month, day);
-      return parsedDate.year == year && parsedDate.month == month && parsedDate.day == day;
+      return parsedDate.year == year &&
+          parsedDate.month == month &&
+          parsedDate.day == day;
     } catch (e) {
       return false;
     }
@@ -29,17 +31,14 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    
+
     String username = '';
     String email = '';
     String password = '';
     String birthdate = '';
     String address = '';
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sign Up'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Sign Up'), centerTitle: true),
       body: Form(
         key: formKey,
         child: ListView(
@@ -67,7 +66,10 @@ class SignUpScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(
+                vertical: 10.0,
+                horizontal: 8.0,
+              ),
               child: TextFormField(
                 decoration: CustomInputDecoration(
                   "Username",
@@ -84,7 +86,10 @@ class SignUpScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(
+                vertical: 10.0,
+                horizontal: 8.0,
+              ),
               child: TextFormField(
                 decoration: CustomInputDecoration(
                   "Email",
@@ -105,7 +110,10 @@ class SignUpScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(
+                vertical: 10.0,
+                horizontal: 8.0,
+              ),
               child: TextFormField(
                 decoration: CustomInputDecoration(
                   "Password",
@@ -126,7 +134,10 @@ class SignUpScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(
+                vertical: 10.0,
+                horizontal: 8.0,
+              ),
               child: TextFormField(
                 decoration: CustomInputDecoration(
                   "Birthdate",
@@ -147,7 +158,10 @@ class SignUpScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(
+                vertical: 10.0,
+                horizontal: 8.0,
+              ),
               child: TextFormField(
                 decoration: CustomInputDecoration(
                   "Address",
@@ -165,7 +179,10 @@ class SignUpScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(
+                vertical: 20.0,
+                horizontal: 8.0,
+              ),
               child: ElevatedButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
