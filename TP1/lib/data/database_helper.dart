@@ -1,4 +1,3 @@
-import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:io' show Platform;

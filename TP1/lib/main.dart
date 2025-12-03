@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 import 'package:tp_1/Screens/SignUpScreen/signup_screen.dart';
 import 'Models/user.dart';
 import 'data/user_service.dart';
@@ -11,18 +13,16 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  databaseFactory = databaseFactoryFfiWeb;
   final service = UserService();
-  final demoUser = User(email: 'seif.jammoussi@fadhloun.com', fullName: 'Abid Chouchane');
-  service
-      .saveCurrentUser(demoUser)
-      .then((_) => service.getCurrentUser())
-      .then((u) {
+  final demoUser = User(email: 'user@user.com', fullName: 'user');
+  service.saveCurrentUser(demoUser).then((_) => service.getCurrentUser()).then((
+    u,
+  ) {
     // ignore: avoid_print
     print('Loaded user: ' + (u?.toString() ?? 'null'));
   });
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     MultiProvider(
       providers: [
@@ -45,10 +45,16 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             useMaterial3: true,
-            colorScheme: ColorScheme.fromSeed(
-              seedColor: const Color(0xFF216BEB),
-              brightness: Brightness.light,
-            ),
+            colorScheme:
+                ColorScheme.fromSeed(
+                  seedColor: const Color(0xFF00C853),
+                  brightness: Brightness.light,
+                ).copyWith(
+                  primary: const Color(0xFF00E676),
+                  secondary: const Color(0xFFFFD740),
+                  tertiary: const Color(0xFFE040FB),
+                  surface: const Color(0xFFF1F8E9),
+                ),
             appBarTheme: const AppBarTheme(centerTitle: false, elevation: 0),
             cardTheme: CardThemeData(
               elevation: 2,
@@ -76,10 +82,15 @@ class MyApp extends StatelessWidget {
           ),
           darkTheme: ThemeData(
             useMaterial3: true,
-            colorScheme: ColorScheme.fromSeed(
-              seedColor: const Color(0xFF216BEB),
-              brightness: Brightness.dark,
-            ),
+            colorScheme:
+                ColorScheme.fromSeed(
+                  seedColor: const Color(0xFF00C853),
+                  brightness: Brightness.dark,
+                ).copyWith(
+                  primary: const Color(0xFF69F0AE),
+                  secondary: const Color(0xFFFFD740),
+                  tertiary: const Color(0xFFE040FB),
+                ),
             appBarTheme: const AppBarTheme(centerTitle: false, elevation: 0),
             cardTheme: CardThemeData(
               elevation: 2,
@@ -90,9 +101,7 @@ class MyApp extends StatelessWidget {
           ),
           themeMode: themeProvider.themeMode,
           home: const MainNavigationScreen(),
-          routes: {
-            SignUpScreen.routeName: (context) => const SignUpScreen(),
-          },
+          routes: {SignUpScreen.routeName: (context) => const SignUpScreen()},
         );
       },
     );

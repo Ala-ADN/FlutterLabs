@@ -41,12 +41,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Future<void> _addToCart(Book book) async {
     final user = await UserService().getCurrentUser();
     if (user?.email == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No user found')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('No user found')));
       return;
     }
-    final storageMode = Provider.of<StorageModeProvider>(context, listen: false).mode;
+    final storageMode = Provider.of<StorageModeProvider>(
+      context,
+      listen: false,
+    ).mode;
     try {
       if (storageMode == StorageMode.cloud) {
         await FirestoreBasketService().addBookToBasket(book, user!.email!);
@@ -80,155 +83,256 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Book book = widget.book ?? ModalRoute.of(context)!.settings.arguments as Book;
+    final Book book =
+        widget.book ?? ModalRoute.of(context)!.settings.arguments as Book;
     return Scaffold(
-      appBar: AppBar(title: Text(book.name)),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          Hero(
-            tag: 'book-${book.name}',
-            child: Center(
-              child: Card(
-                elevation: 8,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Image.asset(
-                    book.image,
-                    height: 350,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
+      appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF00E676), Color(0xFF00C853)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
           ),
-
-          const SizedBox(height: 24),
-
-          Text(
-            book.name,
-            textAlign: TextAlign.center,
-            style: Theme.of(context)
-                .textTheme
-                .headlineSmall
-                ?.copyWith(fontWeight: FontWeight.bold),
-          ),
-
-          const SizedBox(height: 24),
-
-          Card(
-            color: Theme.of(context).colorScheme.primaryContainer,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.attach_money,
-                      size: 32,
-                      color: Theme.of(context).colorScheme.onPrimaryContainer),
-                  Text(
-                    "${book.price} TND",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineSmall
-                        ?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onPrimaryContainer,
-                        ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 24),
-
-          Text(
-            'About this book',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            "Lorem ipsum dolor sit amet consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue.",
-            textAlign: TextAlign.justify,
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium
-                ?.copyWith(height: 1.5),
-          ),
-
-          const SizedBox(height: 32),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: () => _addToCart(book),
-                  icon: Icon(Icons.add_shopping_cart,
-                      color: Theme.of(context).colorScheme.primary),
-                  label: const Text("Add to Cart"),
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: ElevatedButton.icon(
-                  onPressed: _purchase,
-                  icon: const Icon(Icons.shopping_bag),
-                  label: const Text("Buy Now"),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                ),
-              ),
+        ),
+        title: Text(
+          book.name,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              const Color(0xFF00E676).withOpacity(0.05),
+              const Color(0xFFFFD740).withOpacity(0.05),
+              const Color(0xFFE040FB).withOpacity(0.05),
             ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
-
-          const SizedBox(height: 16),
-          Center(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: quantity > 5
-                    ? Theme.of(context).colorScheme.primary.withOpacity(0.10)
-                    : Theme.of(context).colorScheme.secondary.withOpacity(0.10),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    quantity > 5 ? Icons.check_circle : Icons.warning,
-                    color: quantity > 5
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.secondary,
-                    size: 20,
+        ),
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            Hero(
+              tag: 'book-${book.name}',
+              child: Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF00E676), Color(0xFF00C853)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFF00E676).withOpacity(0.6),
+                        blurRadius: 25,
+                        offset: const Offset(0, 12),
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Stock: $quantity units',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium
-                        ?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: quantity > 5
-                              ? Theme.of(context).colorScheme.primary
-                              : Theme.of(context).colorScheme.secondary,
-                        ),
+                  padding: const EdgeInsets.all(4),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.asset(
+                      book.image,
+                      height: 350,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+
+            Text(
+              book.name,
+              textAlign: TextAlign.center,
+              style: Theme.of(
+                context,
+              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+            ),
+
+            const SizedBox(height: 24),
+
+            Container(
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFFFFD740), Color(0xFFFFC400)],
+                ),
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFFFFD740).withOpacity(0.6),
+                    blurRadius: 15,
+                    offset: const Offset(0, 8),
                   ),
                 ],
               ),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('💰', style: TextStyle(fontSize: 32)),
+                    const SizedBox(width: 12),
+                    Text(
+                      "${book.price} TND",
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 28,
+                        color: Color(0xFF1B5E20),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
-          const SizedBox(height: 32),
-        ],
+
+            const SizedBox(height: 24),
+
+            Text(
+              'About this book',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              "Lorem ipsum dolor sit amet consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue.",
+              textAlign: TextAlign.justify,
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(height: 1.5),
+            ),
+
+            const SizedBox(height: 32),
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFFE040FB), Color(0xFFBA68C8)],
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFFE040FB).withOpacity(0.5),
+                          blurRadius: 12,
+                          offset: const Offset(0, 6),
+                        ),
+                      ],
+                    ),
+                    child: ElevatedButton.icon(
+                      onPressed: () => _addToCart(book),
+                      icon: const Icon(
+                        Icons.add_shopping_cart,
+                        color: Colors.white,
+                      ),
+                      label: const Text(
+                        "Add to Cart",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF00E676), Color(0xFF00C853)],
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF00E676).withOpacity(0.5),
+                          blurRadius: 12,
+                          offset: const Offset(0, 6),
+                        ),
+                      ],
+                    ),
+                    child: ElevatedButton.icon(
+                      onPressed: _purchase,
+                      icon: const Icon(Icons.shopping_bag, color: Colors.white),
+                      label: const Text(
+                        "Buy Now",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 16),
+            Center(
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 12,
+                ),
+                decoration: BoxDecoration(
+                  gradient: quantity > 5
+                      ? const LinearGradient(
+                          colors: [Color(0xFF00E676), Color(0xFF00C853)],
+                        )
+                      : const LinearGradient(
+                          colors: [Color(0xFFFF6E40), Color(0xFFFF3D00)],
+                        ),
+                  borderRadius: BorderRadius.circular(24),
+                  boxShadow: [
+                    BoxShadow(
+                      color: quantity > 5
+                          ? const Color(0xFF00E676).withOpacity(0.5)
+                          : const Color(0xFFFF6E40).withOpacity(0.5),
+                      blurRadius: 12,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      quantity > 5 ? '✅' : '⚠️',
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      'Stock: $quantity units',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 32),
+          ],
+        ),
       ),
     );
   }

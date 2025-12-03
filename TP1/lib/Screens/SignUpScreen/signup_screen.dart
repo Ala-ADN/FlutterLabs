@@ -1,23 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../widgets/custom_input_decoration.dart';
 
-class SignUpScreen extends StatefulWidget {
+class SignUpScreen extends StatelessWidget {
   static const String routeName = "/SignUp";
 
   const SignUpScreen({super.key});
-
-  @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
-}
-
-class _SignUpScreenState extends State<SignUpScreen> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  
-  String username = '';
-  String email = '';
-  String password = '';
-  String birthdate = '';
-  String address = '';
 
   bool _isValidDate(String input) {
     try {
@@ -41,13 +28,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    
+    String username = '';
+    String email = '';
+    String password = '';
+    String birthdate = '';
+    String address = '';
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sign Up'),
         centerTitle: true,
       ),
       body: Form(
-        key: _formKey,
+        key: formKey,
         child: ListView(
           padding: const EdgeInsets.all(16.0),
           children: [
@@ -174,8 +168,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 8.0),
               child: ElevatedButton(
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
+                  if (formKey.currentState!.validate()) {
+                    formKey.currentState!.save();
 
                     showDialog(
                       context: context,

@@ -5,5 +5,5 @@ class User {
   User({this.email, this.fullName});
 
   @override
-  String toString() => 'User(email: ' + (email ?? '') + ', fullName: ' + (fullName ?? '') + ')';
+  String toString() => 'User(email: ${email ?? ''}, fullName: ${fullName ?? ''})';
 }
